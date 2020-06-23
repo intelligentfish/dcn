@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/intelligentfish/dcn/signalhandler"
+	"github.com/intelligentfish/dcn/signalHandler"
 	"github.com/intelligentfish/dcn/types"
 	"os"
 	"os/signal"
@@ -79,7 +79,7 @@ func (object *App) RegisterSignalHandler(sigList []os.Signal,
 // RegisterSignalCallback register signal callback
 func (object *App) RegisterSignalCallback(sigList []os.Signal,
 	callback types.SignalCallback) *App {
-	object.RegisterSignalHandler(sigList, signalhandler.New(callback))
+	object.RegisterSignalHandler(sigList, signalHandler.New(callback))
 	return object
 }
 

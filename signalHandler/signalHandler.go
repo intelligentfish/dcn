@@ -1,4 +1,4 @@
-package signalhandler
+package signalHandler
 
 import (
 	"github.com/intelligentfish/dcn/types"
