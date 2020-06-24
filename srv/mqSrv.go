@@ -2,14 +2,16 @@ package srv
 
 import (
 	"context"
+	"sync"
+	"time"
+
 	"github.com/intelligentfish/dcn/define"
 	"github.com/intelligentfish/dcn/log"
 	"github.com/intelligentfish/dcn/mqMessageHandler"
 	"github.com/intelligentfish/dcn/srvGroup"
 	"github.com/intelligentfish/dcn/types"
+	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
-	"sync"
-	"time"
 )
 
 const (
@@ -39,7 +41,7 @@ func NewMQSrv(options ...MQSrvOption) *MQSrv {
 		kafkaConnMap:   make(map[string]*kafka.Conn, 0),
 		subscribeGroup: make(map[string][]types.IMQMessageHandler, 0),
 	}
-	object.BaseSrv.Runner = object
+	object.BaseSrv.ChildRunner = object
 	for _, opt := range options {
 		opt(object)
 	}
@@ -168,7 +170,7 @@ func (object *MQSrv) Write(topic string, raw []byte) (n int, err error) {
 	defer object.kafkaConnMapMutex.RUnlock()
 	conn, ok := object.kafkaConnMap[topic]
 	if !ok {
-		err = types.MQSrvTopicNotExistsError
+		err = types.ErrMQSrvTopicNotExists
 		return
 	}
 	if err = conn.SetWriteDeadline(time.Now().Add(defaultReadTimeout)); nil != err {
@@ -187,7 +189,7 @@ func (object *MQSrv) Read(topic string,
 	defer object.kafkaConnMapMutex.RUnlock()
 	conn, ok := object.kafkaConnMap[topic]
 	if !ok {
-		err = types.MQSrvTopicNotExistsError
+		err = types.ErrMQSrvTopicNotExists
 		return
 	}
 	switch whence {

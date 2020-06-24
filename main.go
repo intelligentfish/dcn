@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/intelligentfish/dcn/app"
 	"github.com/intelligentfish/dcn/log"
+	_ "github.com/intelligentfish/dcn/srv"
 	"github.com/intelligentfish/dcn/srvGroup"
 	"go.uber.org/zap"
 	"os"
@@ -10,6 +11,7 @@ import (
 )
 
 func main() {
+	// register {public_key,bytes,sign}
 	log.Inst().Info("started", zap.String("app", app.Inst().Name()))
 	var err error
 	if err = srvGroup.Inst().StartAll(); nil != err {

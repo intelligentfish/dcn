@@ -28,17 +28,17 @@ func NewLog() *Log {
 	zapCfg.DisableCaller = false
 	zapCfg.OutputPaths = []string{
 		"stdout",
-		os.ExpandEnv(fmt.Sprintf("$PWD/%s.stdout.log", app.Inst().Name())),
+		os.ExpandEnv(fmt.Sprintf("/var/log/%s.stdout.log", app.Inst().Name())),
 	}
 	zapCfg.ErrorOutputPaths = []string{
 		"stderr",
-		os.ExpandEnv(fmt.Sprintf("$PWD/%s.stderr.log", app.Inst().Name())),
+		os.ExpandEnv(fmt.Sprintf("/var/log/%s.stderr.log", app.Inst().Name())),
 	}
 	if logger, err = zapCfg.Build(); nil != err {
 		panic(err)
 	}
 	logger.Named(app.Inst().Name())
-	return &Log{logger: logger,}
+	return &Log{logger: logger}
 }
 
 // Inst singleton

@@ -1,7 +1,10 @@
 syntax = "proto3";
 package proto;
-message UpgradeRequest {
-  bytes pub = 1;
-  bytes sig = 2;
-  bytes body = 3;
+// message
+message Message {
+  int32 main = 1; // main type
+  int32 sub = 2;  // sub type
+  bytes pub = 3;  // public key
+  bytes sig = 4;  // sign
+  bytes body = 5; // body
 }

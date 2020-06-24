@@ -2,10 +2,11 @@ package srv
 
 import (
 	"context"
-	"github.com/intelligentfish/dcn/define"
-	"github.com/intelligentfish/dcn/types"
 	"sync"
 	"sync/atomic"
+
+	"github.com/intelligentfish/dcn/define"
+	"github.com/intelligentfish/dcn/types"
 )
 
 // BaseSrv base service
@@ -18,10 +19,10 @@ type BaseSrv struct {
 	wg               sync.WaitGroup
 	ctx              context.Context
 	cancel           context.CancelFunc
-	Runner           types.IRunner
+	ChildRunner      types.IRunner
 }
 
-// New factory method
+// NewSrvBase factory method
 func NewSrvBase(name string,
 	srvType define.ServiceType,
 	startupPriority define.StartupPriority,
@@ -76,10 +77,10 @@ func (object *BaseSrv) Start() (err error) {
 	errCh := make(chan error, 1)
 	go func() {
 		defer object.wg.Done()
-		if nil == object.Runner {
+		if nil == object.ChildRunner {
 			object.Run(object.ctx, &object.wg, errCh)
 		} else {
-			object.Runner.Run(object.ctx, &object.wg, errCh)
+			object.ChildRunner.Run(object.ctx, &object.wg, errCh)
 		}
 	}()
 	err = <-errCh

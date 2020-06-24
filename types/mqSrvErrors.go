@@ -3,5 +3,6 @@ package types
 import "errors"
 
 var (
-	MQSrvTopicNotExistsError = errors.New("topic not exists")
+	//ErrMQSrvTopicNotExists mq topic not exists error
+	ErrMQSrvTopicNotExists = errors.New("topic not exists")
 )

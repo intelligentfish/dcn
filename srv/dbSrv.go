@@ -45,7 +45,7 @@ func (object *DBSrv) Start() (err error) {
 		if nil != err {
 			return
 		}
-		model.Init(DBSrvInst().db)
+		//model.Init(DBSrvInst().db)
 	}
 	return
 }
