@@ -1,6 +1,7 @@
 package srv
 
 import (
+	"github.com/intelligentfish/dcn/app"
 	"github.com/intelligentfish/dcn/config"
 	"github.com/intelligentfish/dcn/define"
 	"github.com/intelligentfish/dcn/log"
@@ -8,6 +9,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"sync"
+	"time"
 )
 
 var (
@@ -40,12 +42,21 @@ func (object *DBSrv) Start() (err error) {
 	if err = object.BaseSrv.Start(); nil != err {
 		return
 	}
-	if 0 < len(config.Inst().GetMySQLConnection()) {
-		object.db, err = gorm.Open("mysql", config.Inst().GetMySQLConnection())
-		if nil != err {
-			return
+	for i := 0; i < config.Inst().GetDBRetryTimes() && !app.Inst().IsStopped(); i++ {
+		if 0 < len(config.Inst().GetMySQLConnection()) {
+			object.db, err = gorm.Open("mysql", config.Inst().GetMySQLConnection())
+			if nil != err {
+				log.Inst().Error(err.Error())
+			} else {
+				//model.Init(DBSrvInst().db)
+			}
 		}
-		//model.Init(DBSrvInst().db)
+		if nil != err {
+			log.Inst().Error(err.Error())
+			time.Sleep(1 * time.Second)
+			continue
+		}
+		break
 	}
 	return
 }

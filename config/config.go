@@ -11,22 +11,34 @@ var (
 
 // Config
 type Config struct {
-	MySQLConnection string `json:"mysql_connection"`
+	dbRetryTimes    int    `json:"db_retry_times"`
+	mySQLConnection string `json:"mysql_connection"`
 }
 
 // New factory method
 func New() *Config {
-	return &Config{}
+	return &Config{dbRetryTimes: 60}
+}
+
+// SetDBRetryTimes set database connect failed retry times
+func (object *Config) SetDBRetryTimes(times int) *Config {
+	object.dbRetryTimes = times
+	return object
+}
+
+// GetDBRetryTimes get database connect failed retry times
+func (object *Config) GetDBRetryTimes() int {
+	return object.dbRetryTimes
 }
 
 // GetMySQLConnection get mysql connection string
 func (object *Config) GetMySQLConnection() string {
-	return object.MySQLConnection
+	return object.mySQLConnection
 }
 
 // SetMySQLConnection set mysql connection string
 func (object *Config) SetMySQLConnection(conn string) *Config {
-	object.MySQLConnection = conn
+	object.mySQLConnection = conn
 	return object
 }
 
@@ -40,5 +52,5 @@ func Inst() *Config {
 
 // init method
 func init() {
-	Inst().SetMySQLConnection("dev:dev@/dcn?charset=utf8&parseTime=True&loc=Local")
+	Inst().SetMySQLConnection("dev:dev@(db)/dcn?charset=utf8&parseTime=True&loc=Local")
 }

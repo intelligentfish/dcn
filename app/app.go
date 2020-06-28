@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"sync"
+	"sync/atomic"
 	"syscall"
 )
 
@@ -17,6 +18,7 @@ var (
 
 // App application
 type App struct {
+	stopped            int32
 	name               string
 	stopSigSet         map[os.Signal]struct{}
 	stopSigSetMutex    sync.RWMutex
@@ -51,6 +53,11 @@ func (object *App) notifySignal(sig os.Signal) {
 // Name app name
 func (object *App) Name() string {
 	return object.name
+}
+
+// IsStopped return true if app need stop
+func (object *App) IsStopped() bool {
+	return 1 == atomic.LoadInt32(&object.stopped)
 }
 
 // AddStopSignal add stop signal
@@ -102,6 +109,7 @@ loop:
 			break loop
 		}
 	}
+	atomic.StoreInt32(&object.stopped, 1)
 	signal.Stop(sigCh)
 	close(sigCh)
 }

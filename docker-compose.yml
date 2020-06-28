@@ -1,0 +1,33 @@
+version: "3"
+services:
+  db:
+    container_name: dcn_db
+    image: "mysql:5.7"
+    expose:
+      - 3306
+      #ports:
+      #- 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=dcn
+    volumes:
+      - $PWD/data:/var/lib/mysql
+      - $PWD/dcnInit:/docker-entrypoint-initdb.d/:ro
+  node:
+    container_name: dcn_node
+    image: "intelligentfish/dcn"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 80
+    #ports:
+      #- 80:80
+    links:
+      - db
+    stop_signal: SIGINT
+    healthcheck:
+      test: [ "CMD", "curl", "-s", "-f", "http://localhost/api/v1/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3

@@ -11,7 +11,6 @@ import (
 )
 
 func main() {
-	// register {public_key,bytes,sign}
 	log.Inst().Info("started", zap.String("app", app.Inst().Name()))
 	var err error
 	if err = srvGroup.Inst().StartAll(); nil != err {
