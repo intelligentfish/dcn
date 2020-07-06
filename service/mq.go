@@ -1,4 +1,4 @@
-package srv
+package service
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/intelligentfish/dcn/define"
 	"github.com/intelligentfish/dcn/log"
 	"github.com/intelligentfish/dcn/mqMessageHandler"
-	"github.com/intelligentfish/dcn/srvGroup"
+	"github.com/intelligentfish/dcn/serviceGroup"
 	"github.com/intelligentfish/dcn/types"
 	"github.com/segmentio/kafka-go"
 	"go.uber.org/zap"
@@ -140,7 +140,7 @@ func (object *MQSrv) Run(ctx context.Context,
 				}
 				object.Publish(topic, &msg)
 			}
-			log.Inst().Info("mq srv read loop done", zap.String("topic", topic))
+			log.Inst().Info("mq service read loop done", zap.String("topic", topic))
 		}(topic, conn)
 	}
 }
@@ -215,5 +215,5 @@ func MQSrvInst(options ...MQSrvOption) *MQSrv {
 
 // init initialize method
 func init() {
-	srvGroup.Inst().AddSrv(MQSrvInst())
+	serviceGroup.Inst().AddSrv(MQSrvInst())
 }

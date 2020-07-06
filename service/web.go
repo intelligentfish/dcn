@@ -1,4 +1,4 @@
-package srv
+package service
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/intelligentfish/dcn/define"
 	"github.com/intelligentfish/dcn/log"
-	"github.com/intelligentfish/dcn/srvGroup"
+	"github.com/intelligentfish/dcn/serviceGroup"
 	"github.com/intelligentfish/dcn/types"
 )
 
@@ -119,5 +119,5 @@ func WebSrvInst() *WebSrv {
 
 // init init method
 func init() {
-	srvGroup.Inst().AddSrv(WebSrvInst())
+	serviceGroup.Inst().AddSrv(WebSrvInst())
 }

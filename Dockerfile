@@ -10,8 +10,8 @@ COPY mqMessageHandler ./mqMessageHandler
 COPY proto ./proto
 COPY serviceSorter ./serviceSorter
 COPY signalHandler ./signalHandler
-COPY srv ./srv
-COPY srvGroup ./srvGroup
+COPY service ./service
+COPY serviceGroup ./serviceGroup
 COPY types ./types
 COPY go.sum go.mod ./
 COPY main.go .

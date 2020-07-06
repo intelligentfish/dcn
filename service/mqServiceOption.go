@@ -1,4 +1,4 @@
-package srv
+package service
 
 // MQSrvOption
 type MQSrvOption func(object *MQSrv)

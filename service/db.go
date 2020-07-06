@@ -1,11 +1,11 @@
-package srv
+package service
 
 import (
 	"github.com/intelligentfish/dcn/app"
 	"github.com/intelligentfish/dcn/config"
 	"github.com/intelligentfish/dcn/define"
 	"github.com/intelligentfish/dcn/log"
-	"github.com/intelligentfish/dcn/srvGroup"
+	"github.com/intelligentfish/dcn/serviceGroup"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"sync"
@@ -102,5 +102,5 @@ func DBSrvInst() *DBSrv {
 
 // init method
 func init() {
-	srvGroup.Inst().AddSrv(DBSrvInst())
+	serviceGroup.Inst().AddSrv(DBSrvInst())
 }

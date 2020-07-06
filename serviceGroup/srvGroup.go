@@ -1,4 +1,4 @@
-package srvGroup
+package serviceGroup
 
 import (
 	"github.com/intelligentfish/dcn/app"

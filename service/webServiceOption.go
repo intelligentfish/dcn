@@ -1,4 +1,4 @@
-package srv
+package service
 
 // WebSrvOption web service option
 type WebSrvOption func(object *WebSrv)

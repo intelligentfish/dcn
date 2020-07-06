@@ -11,6 +11,7 @@ var (
 
 // Config
 type Config struct {
+	Agent           bool   `json:"agent"`
 	dbRetryTimes    int    `json:"db_retry_times"`
 	mySQLConnection string `json:"mysql_connection"`
 }
