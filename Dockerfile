@@ -1,5 +1,6 @@
 FROM golang:latest as builder
 WORKDIR /go/src/github.com/intelligentfish/dcn
+COPY agent ./agent
 COPY app ./app
 COPY config ./config
 COPY crypto ./crypto
